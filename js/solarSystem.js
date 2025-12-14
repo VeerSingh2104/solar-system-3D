@@ -3,6 +3,38 @@ import { createPlanet } from "./planetFactory.js";
 import { PLANETS } from "./planetData.js";
 
 // =====================
+// ORBIT CREATION (WHITE)
+// =====================
+function createOrbit(scene, radius) {
+  const segments = 128;
+  const points = [];
+
+  for (let i = 0; i <= segments; i++) {
+    const theta = (i / segments) * Math.PI * 2;
+    points.push(
+      Math.cos(theta) * radius,
+      0,
+      Math.sin(theta) * radius
+    );
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(points, 3)
+  );
+
+  const material = new THREE.LineBasicMaterial({
+    color: 0xffffff,   // ✅ WHITE
+    transparent: true,
+    opacity: 0.4
+  });
+
+  const orbit = new THREE.Line(geometry, material);
+  scene.add(orbit);
+}
+
+// =====================
 // CREATE SOLAR SYSTEM
 // =====================
 export function createSolarSystem(scene) {
@@ -12,6 +44,9 @@ export function createSolarSystem(scene) {
     const planet = createPlanet(data);
     scene.add(planet);
     planets.push(planet);
+
+    // ✅ ADD ORBIT FOR EACH PLANET
+    createOrbit(scene, data.orbit);
   });
 
   // Create asteroid belt
@@ -37,11 +72,11 @@ export function animateSolarSystem(planets, asteroids, timeScale = 1) {
 // ASTEROID BELT
 // =====================
 function createAsteroidBelt(scene, count = 1200) {
-  const geometry = new THREE.SphereGeometry(0.06, 6, 6);
+  const geometry = new THREE.SphereGeometry(0.12, 6, 6);
   const material = new THREE.MeshStandardMaterial({
     color: 0x888888,
-    roughness: 1.0,
-    metalness: 0.0,
+    roughness: 0.9,
+    metalness: 0.1,
   });
 
   const asteroids = [];
@@ -70,6 +105,8 @@ function createAsteroidBelt(scene, count = 1200) {
 
     scene.add(rock);
     asteroids.push(rock);
+    rock.castShadow = false;
+    rock.receiveShadow = true;
   }
 
   return asteroids;

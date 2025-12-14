@@ -16,6 +16,11 @@ import { initCursor, updateCursor } from "./interactions/cursor.js";
 import { updateGestures, didPinch } from "./interactions/gestures.js";
 import { setupScene } from "./scene.js";
 
+// TIME CONTROL
+let timeScale = 1;
+let targetTimeScale = 1;
+
+
 // =====================
 // CAMERA MODES
 // =====================
@@ -166,7 +171,7 @@ function animate() {
 
   if (finger.handDetected && cameraMode === "system") {
     if (openFingers >= 4) targetCameraZ -= GESTURE_ZOOM_SPEED;
-    else if (openFingers <= 1) targetCameraZ += GESTURE_ZOOM_SPEED;
+    else if (openFingers == 0) targetCameraZ += GESTURE_ZOOM_SPEED;
 
     targetCameraZ = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, targetCameraZ));
   }
@@ -189,12 +194,25 @@ function animate() {
   // ---------------------
   // SOLAR SYSTEM
   // ---------------------
-  animateSolarSystem(planets, asteroids);
+  animateSolarSystem(planets, asteroids, timeScale += (targetTimeScale - timeScale) * 0.05);
 
   // ---------------------
   // RENDER
   // ---------------------
   renderer.render(scene, camera);
 }
+// =====================
+// KEYBOARD TIME CONTROLS
+// =====================
+window.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "1": targetTimeScale = 0.2; break;
+    case "2": targetTimeScale = 1; break;
+    case "3": targetTimeScale = 5; break;
+    case "0": targetTimeScale = 0; break;
+  }
+});
+
+
 
 animate();

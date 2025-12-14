@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gesture Solar System – Cursor Test</title>
+
+  <link rel="stylesheet" href="./styles.css">
+
+  <!-- MediaPipe scripts (GLOBAL, not modules) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+</head>
+<body>
+
+  <!-- Hidden video for MediaPipe -->
+  <video id="video" autoplay muted playsinline style="display:none;"></video>
+  <div id="planet-label"></div>
+
+  <!-- Entry JS -->
+  <script type="module" src="./js/main.js"></script>
+
+</body>
+</html>

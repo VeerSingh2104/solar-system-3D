@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+}
+
+/* Finger cursor */
+#finger-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: cyan;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px cyan;
+  transition: opacity 0.2s ease;
+  z-index: 10000;   /* VERY IMPORTANT */
+}
+
+
+#planet-label {
+  position: fixed;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, -120%);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 9000;
+}
+

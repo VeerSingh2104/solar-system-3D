@@ -92,6 +92,7 @@ const glow = new THREE.Mesh(glowGeometry, glowMaterial);
 glow.position.copy(planet.position);
 
 planet.add(glow);
+planet.updateMatrixWorld(true);
 
   return planet;
 }

@@ -1,6 +1,6 @@
 let currentLandmarks = null;
 let openFingerCount = 0;
-let handGesture = "none"; 
+let handGesture = "none";
 // "open" | "closed" | "point" | "none"
 
 let fingerPos = { x: 0.5, y: 0.5 };
@@ -28,7 +28,7 @@ export function getHandGesture() {
 // =====================
 // INIT HAND TRACKING
 // =====================
-export function initHandTracking(videoElement) {
+export function initHandTracking(videoElement, deviceId = null) {
   const hands = new window.Hands({
     locateFile: file =>
       `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
@@ -71,7 +71,6 @@ export function initHandTracking(videoElement) {
     const knuckles = [6, 10, 14, 18];
 
     openFingerCount = 0;
-
     for (let i = 0; i < tips.length; i++) {
       if (landmarks[tips[i]].y < landmarks[knuckles[i]].y) {
         openFingerCount++;
@@ -98,7 +97,7 @@ export function initHandTracking(videoElement) {
       handGesture = "closed";
     }
 
-    // ☝️ Pointing (cursor control)
+    // ☝️ Pointing
     else if (
       openFingerCount === 1 &&
       indexTip.y < indexKnuckle.y
@@ -106,14 +105,14 @@ export function initHandTracking(videoElement) {
       handGesture = "point";
     }
 
-    // Neutral / unknown
+    // Neutral
     else {
       handGesture = "none";
     }
   });
 
   // =====================
-  // CAMERA
+  // CAMERA (MediaPipe)
   // =====================
   const camera = new window.Camera(videoElement, {
     onFrame: async () => {
@@ -121,7 +120,18 @@ export function initHandTracking(videoElement) {
     },
     width: 640,
     height: 480,
+
+    // 👇 Use selected camera if provided
+    deviceId: deviceId || undefined,
   });
 
   camera.start();
+}
+
+// =====================
+// LIST AVAILABLE CAMERAS
+// =====================
+export async function listCameras() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return devices.filter(d => d.kind === "videoinput");
 }

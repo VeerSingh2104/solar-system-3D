@@ -34,6 +34,8 @@ export function createSun(scene) {
   sunLight.shadow.mapSize.height = 2048;
   sunLight.shadow.camera.near = 1;
   sunLight.shadow.camera.far = 800;
+sunLight.shadow.camera.near = 1;
+sunLight.shadow.camera.far = 1500;
 
   scene.add(sunLight);
 

@@ -79,6 +79,13 @@ let hoveredPlanet = null;
 // PLANET LABEL
 // =====================
 const planetLabel = document.getElementById("planet-label");
+// =====================
+// SHADOW MAP WARM-UP
+// =====================
+renderer.shadowMap.needsUpdate = true;
+
+// Force one render so shadows initialize
+renderer.render(scene, camera);
 
 // =====================
 // ANIMATION LOOP
